@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>متجر جود الإلكتروني | الأردن</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body data-theme="dark">
+    <!-- صفحة الدخول -->
+    <section id="login-portal">
+        <div class="portal-panel">
+            <div class="portal-header">
+                <div class="portal-logo">
+                    <i class="fas fa-store"></i>
+                </div>
+                <h1>مرحباً بك في متجر جود الإلكتروني</h1>
+                <p>المتجر الإلكتروني المتكامل للإلكترونيات والأجهزة - الأردن</p>
+            </div>
+            <div class="portal-body">
+                <div class="portal-options">
+                    <button class="portal-btn employee" onclick="loginAsEmployee()">
+                        <i class="fas fa-user-tie"></i> دخول الموظفين
+                    </button>
+                    <button class="portal-btn member" onclick="loginAsMember()">
+                        <i class="fas fa-user"></i> دخول الأعضاء
+                    </button>
+                </div>
+                <div class="guest-section">
+                    <h3>أو اسحب للدخول كضيف</h3>
+                    <div class="swipe-container" id="swipeContainer">
+                        <div class="swipe-track" id="swipeTrack">اسحب للدخول كضيف ←</div>
+                        <div class="swipe-handle" id="swipeHandle">
+                            <i class="fas fa-chevron-left"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="portal-features">
+                    <div class="portal-feature">
+                        <i class="fas fa-shipping-fast"></i>
+                        <p>شحن سريع لكل أنحاء الأردن</p>
+                    </div>
+                    <div class="portal-feature">
+                        <i class="fas fa-shield-alt"></i>
+                        <p>أمان عالي في المعاملات</p>
+                    </div>
+                    <div class="portal-feature">
+                        <i class="fas fa-gift"></i>
+                        <p>عروض حصرية للأردن</p>
+                    </div>
+                    <div class="portal-feature">
+                        <i class="fas fa-credit-card"></i>
+                        <p>دفع آمن بالدينار الأردني</p>
+                    </div>
+                </div>
+                <div class="portal-language">
+                    <button class="portal-lang-btn active">العربية</button>
+                    <button class="portal-lang-btn">English</button>
+                </div>
+                <div class="portal-footer">
+                    <p>© 2023 متجر جود الإلكتروني. جميع الحقوق محفوظة - الأردن</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- المحتوى الرئيسي -->
+    <div class="main-content">
+        <header>
+            <div class="nav">
+                <div class="brand">
+                    <svg class="logo-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M 60,20 L 60,75 A 15 15, 0, 0, 1, 45,90 L 35,90" fill="none" stroke="currentColor" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" />
+                        <circle cx="35" cy="20" r="12" fill="currentColor"/>
+                    </svg>
+                    <h1>متجر جود الإلكتروني</h1>
+                </div>
+                <div class="searchbar">
+                    <input class="input" placeholder="ابحث عن المنتجات...">
+                    <button class="btn primary"><i class="fas fa-search"></i> بحث</button>
+                </div>
+                <div class="nav-actions">
+                    <button class="btn ghost" onclick="toggleTheme()"><i class="fas fa-moon"></i> المظهر</button>
+                    <button class="btn ghost" id="adminBtn" onclick="showAdminPanel()" style="display:none;"><i class="fas fa-cog"></i> الإدارة</button>
+                    <button class="btn ghost" id="userBtn" onclick="showUserPanel()"><i class="fas fa-user"></i> حسابي</button>
+                    <button class="btn primary"><i class="fas fa-shopping-cart"></i> سلة التسوق <span class="cart-count">0</span></button>
+                </div>
+            </div>
+        </header>
+        <!-- قسم الهيرو -->
+        <section class="hero">
+            <div class="hero-content">
+                <h2>اكتشف عالم الإلكترونيات بأفضل الأسعار في الأردن</h2>
+                <p>أحدث الأجهزة الإلكترونية والكهربائية من أفضل العلامات التجارية العالمية بأسعار تنافسية وضمان على جميع المنتجات</p>
+                <div class="hero-buttons">
+                    <button class="btn primary" onclick="scrollToProducts()"><i class="fas fa-shopping-bag"></i> تسوق الآن</button>
+                    <button class="btn" style="background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.3);" onclick="scrollToOffers()">
+                        <i class="fas fa-percentage"></i> العروض الخاصة
+                    </button>
+                </div>
+            </div>
+        </section>
+        <!-- الأقسام -->
+        <div class="categories">
+            <button class="category-btn active" onclick="filterProducts('all')"><i class="fas fa-boxes"></i> جميع المنتجات</button>
+            <button class="category-btn" onclick="filterProducts('mobiles')"><i class="fas fa-mobile-alt"></i> الهواتف</button>
+            <button class="category-btn" onclick="filterProducts('laptops')"><i class="fas fa-laptop"></i> اللابتوبات</button>
+            <button class="category-btn" onclick="filterProducts('tv')"><i class="fas fa-tv"></i> التلفزيونات</button>
+            <button class="category-btn" onclick="filterProducts('audio')"><i class="fas fa-headphones"></i> السماعات</button>
+            <button class="category-btn" onclick="filterProducts('cameras')"><i class="fas fa-camera"></i> الكاميرات</button>
+        </div>
+        <!-- المنتجات -->
+        <h2 class="section-title">أحدث المنتجات</h2>
+        <div class="products-grid" id="productsContainer">
+            <!-- سيتم إضافة المنتجات ديناميكياً -->
+        </div>
+        <!-- قسم العروض الخاصة -->
+        <section class="offers-section">
+            <h2 class="section-title">العروض الخاصة</h2>
+            <div class="offers-container">
+                <!-- سيتم إضافة العروض ديناميكياً -->
+            </div>
+        </section>
+        <!-- لوحة التحكم -->
+        <div class="admin-panel" id="adminPanel">
+            <div class="admin-header">
+                <h2>لوحة تحكم المدير</h2>
+                <button class="btn primary" onclick="hideAdminPanel()"><i class="fas fa-arrow-right"></i> العودة للمتجر</button>
+            </div>
+            <div class="admin-stats">
+                <div class="stat-card">
+                    <h3>إجمالي المبيعات</h3>
+                    <div class="value">25,430 د.أ</div>
+                </div>
+                <div class="stat-card">
+                    <h3>عدد العملاء</h3>
+                    <div class="value">1,248</div>
+                </div>
+                <div class="stat-card">
+                    <h3>المنتجات المباعة</h3>
+                    <div class="value">3,742</div>
+                </div>
+                <div class="stat-card">
+                    <h3>الطلبات الجديدة</h3>
+                    <div class="value">42</div>
+                </div>
+            </div>
+            <div class="admin-table">
+                <div class="admin-table-header">
+                    <h3>آخر الطلبات</h3>
+                    <button class="btn primary"><i class="fas fa-plus"></i> إضافة طلب</button>
+                </div>
+                <div class="admin-table-content">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>رقم الطلب</th>
+                                <th>العميل</th>
+                                <th>التاريخ</th>
+                                <th>المبلغ</th>
+                                <th>الحالة</th>
+                                <th>الإجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>#12345</td>
+                                <td>أحمد محمد</td>
+                                <td>2023-10-15</td>
+                                <td>450 د.أ</td>
+                                <td><span class="badge completed">مكتمل</span></td>
+                                <td>
+                                    <button class="btn ghost"><i class="fas fa-eye"></i></button>
+                                    <button class="btn danger"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#12346</td>
+                                <td>سارة عبدالله</td>
+                                <td>2023-10-14</td>
+                                <td>320 د.أ</td>
+                                <td><span class="badge processing">قيد التجهيز</span></td>
+                                <td>
+                                    <button class="btn ghost"><i class="fas fa-eye"></i></button>
+                                    <button class="btn danger"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#12347</td>
+                                <td>خالد إبراهيم</td>
+                                <td>2023-10-14</td>
+                                <td>890 د.أ</td>
+                                <td><span class="badge pending">معلق</span></td>
+                                <td>
+                                    <button class="btn ghost"><i class="fas fa-eye"></i></button>
+                                    <button class="btn danger"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- الفوتر -->
+        <footer>
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>عن المتجر</h3>
+                    <p>متجر جود الإلكتروني يقدم أحدث الأجهزة الإلكترونية بأفضل الأسعار وخدمة العملاء المتميزة في جميع أنحاء الأردن.</p>
+                </div>
+                <div class="footer-column">
+                    <h3>روابط سريعة</h3>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-chevron-left"></i> الرئيسية</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-left"></i> المنتجات</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-left"></i> العروض</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-left"></i> من نحن</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-left"></i> اتصل بنا</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>وسائل التواصل</h3>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-phone"></i> 962791234567+</a></li>
+                        <li><a href="#"><i class="fas fa-envelope"></i> jordan@jood-electronics.com</a></li>
+                        <li><a href="#"><i class="fas fa-map-marker-alt"></i> عمان، الأردن</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>تابعنا</h3>
+                    <div style="display: flex; gap: 15px; margin-top: 20px;">
+                        <a href="#" style="font-size: 20px;"><i class="fab fa-facebook"></i></a>
+                        <a href="#" style="font-size: 20px;"><i class="fab fa-instagram"></i></a>
+                        <a href="#" style="font-size: 20px;"><i class="fab fa-twitter"></i></a>
+                        <a href="#" style="font-size: 20px;"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2023 متجر جود الإلكتروني - الأردن. جميع الحقوق محفوظة</p>
+            </div>
+        </footer>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
