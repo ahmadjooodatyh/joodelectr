@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>تسجيل الدخول</title>
+  <style>
+    body { font-family: Tahoma, Arial; background:#eef; display:flex; align-items:center; justify-content:center; height:100vh; }
+    .login-box { background:#fff; padding:30px; border-radius:8px; box-shadow:0 0 10px rgba(0,0,0,0.2); width:300px; text-align:center; }
+    input { width:90%; padding:10px; margin:10px 0; border:1px solid #ccc; border-radius:5px; }
+    button { padding:10px 20px; background:#4CAF50; color:#fff; border:none; border-radius:5px; cursor:pointer; }
+    button:hover { background:#45a049; }
+  </style>
+</head>
+<body>
+  <div class="login-box">
+    <h2>تسجيل الدخول</h2>
+    <input type="text" id="username" placeholder="اسم المستخدم"><br>
+    <input type="password" id="password" placeholder="كلمة المرور"><br>
+    <button onclick="loginAdmin()">دخول</button>
+  </div>
+  <script src="login.js"></script>
+</body>
+</html>

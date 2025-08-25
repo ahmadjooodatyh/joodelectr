@@ -1,0 +1,24 @@
+# أوامر جاهزة لتشغيلها في CMD داخل مجلد المشروع
+cd "C:\Users\jooda\OneDrive\Desktop\jood_store_final_with_index"
+
+:: إنشاء .gitignore وإضافة قواعد التجاهل
+echo node_modules/ > .gitignore
+echo logs >> .gitignore
+echo *.log >> .gitignore
+echo npm-debug.log* >> .gitignore
+echo yarn-debug.log* >> .gitignore
+echo yarn-error.log* >> .gitignore
+echo dist/ >> .gitignore
+echo build/ >> .gitignore
+echo .env >> .gitignore
+echo .vscode/ >> .gitignore
+echo .DS_Store >> .gitignore
+echo Thumbs.db >> .gitignore
+
+:: إزالة node_modules من تتبع Git (لن يحذف المجلد محلياً)
+git rm -r --cached node_modules
+
+:: إضافة .gitignore وعمل commit ثم push
+git add .gitignore
+git commit -m "Add .gitignore and remove node_modules from tracking"
+git push -u origin main

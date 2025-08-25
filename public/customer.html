@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>صفحتي - العميل</title>
+<style>body{font-family:tahoma;background:#0d1117;color:#e6eef8;padding:20px}header{display:flex;justify-content:space-between;align-items:center}card{display:block}</style>
+</head>
+<body>
+<header><h1>مرحبا بك في صفحتي</h1><div><a href="/">الرئيسية</a></div></header>
+
+<section id="profile" style="margin-top:20px;padding:12px;background:#071025;border-radius:8px">
+  <h3>بياناتي</h3>
+  <div>الاسم: <span id="c_name">-</span></div>
+  <div>الهاتف: <span id="c_phone">-</span></div>
+  <div>البريد: <span id="c_email">-</span></div>
+</section>
+
+<section id="balances" style="margin-top:12px;padding:12px;background:#072333;border-radius:8px">
+  <h3>الرصيد والملخص</h3>
+  <div>إجمالي الفواتير: <span id="total_invoices">0</span></div>
+  <div>إجمالي المدفوع: <span id="total_paid">0</span></div>
+  <div>الرصيد المتبقي: <span id="balance_left">0</span></div>
+</section>
+
+<section id="orders" style="margin-top:12px;padding:12px;background:#071022;border-radius:8px">
+  <h3>قائمة طلباتي</h3>
+  <table id="orders_table" border="0" width="100%" style="color:#fff">
+    <thead><tr><th>#</th><th>المنتج</th><th>سعر الطلب</th><th>المدفوع</th><th>المتبقي</th><th>حالة الطلب</th><th>فاتورة</th></tr></thead>
+    <tbody id="orders_body"></tbody>
+  </table>
+</section>
+
+<section id="complaints" style="margin-top:12px;padding:12px;background:#071022;border-radius:8px">
+  <h3>الشكاوى</h3>
+  <form id="compForm"><textarea id="compText" rows="3" style="width:100%"></textarea><button type="submit">ارسال شكوى</button></form>
+  <ul id="compList"></ul>
+</section>
+
+<section id="activities" style="margin-top:12px;padding:12px;background:#071022;border-radius:8px">
+  <h3>سجل الحركات</h3>
+  <ul id="activityList"></ul>
+</section>
+
+<script>
+// TEMP: Use a demo logged-in user id for now (replace with actual login flow)
+const userId = 1;
+
+// load profile (simple)
+async function loadProfile(){
+  const r = await fetch('/api/users'); const users = await r.json();
+  const me = users.find(u=>u.id===userId) || {username:'guest', phone:'', email:''};
+  document.getElementById('c_name').innerText = me.username;
+  document.getElementById('c_phone').innerText = me.phone || '-';
+  document.getElementById('c_email').innerText = me.email || '-';
+}
+
+// load orders for this user
+async function loadOrders(){
+  const r = await fetch('/api/orders'); const orders = await r.json();
+  const mine = orders.filter(o=>o.user_id===userId);
+  const tbody = document.getElementById('orders_body'); tbody.innerHTML='';
+  let totalInv=0, totalPaid=0;
+  mine.forEach(o=>{
+    totalInv += o.total || 0;
+    const paid = 0; // placeholder
+    const left = (o.total||0) - paid;
+    totalPaid += paid;
+    const products = (o.items||[]).map(it=>it.name).join(', ');
+    tbody.innerHTML += `<tr><td>${o.id}</td><td>${products}</td><td>${o.total}</td><td>${paid}</td><td>${left}</td><td>${o.status}</td><td><button onclick="window.open('/invoice/${o.id}','_blank')">فاتورة</button></td></tr>`;
+  });
+  document.getElementById('total_invoices').innerText = totalInv;
+  document.getElementById('total_paid').innerText = totalPaid;
+  document.getElementById('balance_left').innerText = (totalInv - totalPaid);
+}
+
+// complaints
+document.getElementById('compForm').onsubmit = async (e) => {
+  e.preventDefault();
+  const text = document.getElementById('compText').value;
+  if(!text) return alert('اكتب الشكوى');
+  await fetch('/api/complaints', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ user_id: userId, message: text }) });
+  document.getElementById('compText').value='';
+  loadComplaints();
+  loadActivities();
+}
+
+async function loadComplaints(){
+  const r = await fetch('/api/complaints'); const c = await r.json();
+  const mine = c.filter(x=>x.user_id===userId);
+  document.getElementById('compList').innerHTML = mine.map(x=>`<li>#${x.id} - ${x.message} - ${x.status}</li>`).join('');
+}
+
+// activities
+async function loadActivities(){
+  const r = await fetch('/api/activities/'+userId); const a = await r.json();
+  document.getElementById('activityList').innerHTML = a.map(x=>`<li>${x.timestamp} - ${x.action}</li>`).join('');
+}
+
+async function init(){
+  await loadProfile();
+  await loadOrders();
+  await loadComplaints();
+  await loadActivities();
+}
+init();
+</script>
+</body>
+</html>
